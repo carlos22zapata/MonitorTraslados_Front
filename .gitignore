@@ -3,3 +3,16 @@ dist/
 dist.rar
 .env
 .opencode/
+
+# Backend files (estos van en el repo Backend)
+Controllers/
+Hubs/
+Models/
+Services/
+Workers/
+Properties/
+Program.cs
+*.csproj
+*.slnx
+appsettings.json
+web.config
