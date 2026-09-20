@@ -1,6 +1,6 @@
 import TarjetaMovimiento from './TarjetaMovimiento'
 
-function DashboardKDS({ movimientos }) {
+function DashboardKDS({ movimientos, onArticuloClick }) {
   if (movimientos.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[70vh]">
@@ -37,7 +37,7 @@ function DashboardKDS({ movimientos }) {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
             {agrupados[tipo].map(mov => (
-              <TarjetaMovimiento key={`${mov.tipo}-${mov.movNum}`} movimiento={mov} />
+              <TarjetaMovimiento key={`${mov.tipo}-${mov.movNum}`} movimiento={mov} onArticuloClick={onArticuloClick} />
             ))}
           </div>
         </div>

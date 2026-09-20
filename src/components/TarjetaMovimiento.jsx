@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-function TarjetaMovimiento({ movimiento }) {
+function TarjetaMovimiento({ movimiento, onArticuloClick }) {
   const [minutos, setMinutos] = useState(0)
 
   useEffect(() => {
@@ -57,7 +57,11 @@ function TarjetaMovimiento({ movimiento }) {
               {movimiento.items.map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between text-xs">
                   <div className="flex items-center min-w-0">
-                    <span className="text-gray-400 font-mono shrink-0 w-20">{item.coArt}</span>
+                    <span
+                      className="text-blue-600 font-mono shrink-0 w-20 cursor-pointer hover:text-blue-800 hover:underline font-bold"
+                      title={`Ver movimientos de ${item.coArt}`}
+                      onClick={(e) => { e.stopPropagation(); onArticuloClick?.(item.coArt, item.artDes); }}
+                    >{item.coArt}</span>
                     <span className="text-gray-700 truncate" title={item.artDes}>{item.artDes}</span>
                   </div>
                   <span className={`font-semibold shrink-0 ml-2 ${item.cantidad > 0 ? 'text-green-600' : 'text-red-600'}`}>

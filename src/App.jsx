@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import * as signalR from '@microsoft/signalr'
 import DashboardKDS from './components/DashboardKDS'
+import ModalMovimientos from './components/ModalMovimientos'
 
 const SIGNALR_HUB_URL = 'http://localhost:5206/trasladohub'
 
@@ -8,6 +9,7 @@ function App() {
   const [movimientos, setMovimientos] = useState([])
   const [connectionState, setConnectionState] = useState('Desconectado')
   const [lastUpdate, setLastUpdate] = useState(null)
+  const [modalArticulo, setModalArticulo] = useState(null)
   const connectionRef = useRef(null)
 
   useEffect(() => {
@@ -75,6 +77,10 @@ function App() {
     }
   }
 
+  const handleArticuloClick = (coArt, artDes) => {
+    setModalArticulo({ coArt, artDes })
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-gradient-to-r from-white via-blue-500 to-blue-900 shadow-lg">
@@ -102,7 +108,7 @@ function App() {
                   Última actualización: {lastUpdate.toLocaleTimeString('es-VE')}
                 </span>
               )}
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center gap-4">
                 <div className="flex items-center space-x-2">
                   <span className={`w-3 h-3 rounded-full ${
                     connectionState === 'Conectado' 
@@ -113,9 +119,9 @@ function App() {
                   }`}></span>
                   <span className="text-sm font-medium">{connectionState}</span>
                 </div>
-                <div className="bg-blue-800 px-3 py-1 rounded-full">
-                  <span className="font-bold">{movimientos.length}</span>
-                  <span className="text-blue-200 ml-1">artículos</span>
+                <div className="bg-blue-800 px-4 py-1 rounded-full flex items-center gap-1.5">
+                  <span className="font-bold text-white">{movimientos.length}</span>
+                  <span className="text-blue-200">registros</span>
                 </div>
               </div>
             </div>
@@ -124,8 +130,16 @@ function App() {
       </header>
 
       <main className="max-w-full mx-auto px-4 py-6">
-        <DashboardKDS movimientos={movimientos} />
+        <DashboardKDS movimientos={movimientos} onArticuloClick={handleArticuloClick} />
       </main>
+
+      {modalArticulo && (
+        <ModalMovimientos
+          coArt={modalArticulo.coArt}
+          artDes={modalArticulo.artDes}
+          onClose={() => setModalArticulo(null)}
+        />
+      )}
     </div>
   )
 }
